@@ -44,7 +44,7 @@ gem 'httpclient'
 
 gem 'devise'
 
-gem 'wdm'
+gem 'wdm', platforms: [:mingw, :x64_mingw, :mswin]
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
