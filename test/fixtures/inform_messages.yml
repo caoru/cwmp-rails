@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  rid: 1
+  received: MyString
+  ip: MyString
+  oui: MyString
+  class: MyString
+  serial: MyString
+  event: MyString
+  xml: MyString
+
+two:
+  rid: 1
+  received: MyString
+  ip: MyString
+  oui: MyString
+  class: MyString
+  serial: MyString
+  event: MyString
+  xml: MyString

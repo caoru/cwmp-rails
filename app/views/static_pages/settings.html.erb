@@ -1,0 +1,51 @@
+<% provide(:title, "Settings") %>
+
+<h1>Settings</h1>
+
+<div class="settings">
+  <%= form_for(:api, url: api_settings_path, :method => :put) do |f| %>
+    <div class="row">
+      <div class="col-md-6">
+
+        <h3>CPE</h3>
+
+        <%= f.label :cpe_ip, "IP" %>
+        <%= f.text_field :cpe_ip, class: 'form-control'  %>
+
+        <%= f.label :cpe_port, "Port" %>
+        <%= f.text_field :cpe_port, class: 'form-control'  %>
+
+        <%= f.label :cpe_path, "Path" %>
+        <%= f.text_field :cpe_path, class: 'form-control'  %>
+
+        <%= f.label :cpe_username, "Username" %>
+        <%= f.text_field :cpe_username, class: 'form-control'  %>
+
+        <%= f.label :cpe_password, "Password" %>
+        <%= f.text_field :cpe_password, class: 'form-control'  %>
+
+      </div>
+
+      <div class="col-md-6">
+  
+        <h3>ACS</h3>
+
+        <%= f.label :acs_name, "Name" %>
+        <%= f.text_field :acs_name, class: 'form-control'  %>
+
+        <%= f.label :acs_username, "Username" %>
+        <%= f.text_field :acs_username, class: 'form-control'  %>
+
+        <%= f.label :acs_password, "Password" %>
+        <%= f.text_field :acs_password, class: 'form-control'  %>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4 col-md-offset-4">
+        <%= f.submit 'Apply', class: "btn btn-primary apply" %>
+      </div>
+    </div>
+  <% end %>
+</div>

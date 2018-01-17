@@ -1,0 +1,14 @@
+<div class="form-content">
+  <label for="value"><%= name %></label>
+  <span class="icon expand-icon glyphicon glyphicon-minus"></span>
+  <% if enums.length == 0 %>
+    <input class="form-control" type="text" name="value">
+  <% else %>
+    <select class="form-control" name="value">
+      <% enums.each do |enum| %>
+        <option value="<%= enum.split('|')[0] %>"><%= enum.split('|')[1] %></option>
+      <% end %>
+    </select>
+  <% end %>
+  <input type="hidden" name="type" value="<%= type %>">
+</div>

@@ -1,0 +1,95 @@
+// Place all the styles related to the Getvalues controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#parameters {
+  margin-top: 20px;
+}
+
+.btn {
+  //color: #bbbbbb;
+  width: 49%;
+  //height: 100px;
+  /*add any other properties you want to style*/
+}
+
+#floatPosition {
+  //background-color:#F0F0F0;
+  position:absolute;
+  width:50%;
+  height:70%;
+  top:170px;
+  right:1%;
+  padding: 3px 10px
+}
+
+.tr-select {
+  margin-bottom: 20px;
+  label {
+    margin-right: 10px;
+  }
+}
+
+.method-select {
+  padding-top: 7px;
+  label {
+    margin-right: 10px;
+  }
+}
+
+.values {
+  min-height: 570px;
+}
+
+.form-content {
+  margin-right: 0px;
+  //margin-bottom: 10px;
+}
+
+#instanceManagement .modal-footer .first {
+  margin-bottom: 10px;
+}
+
+#instanceManagement .modal-footer {
+  text-align: center;
+}
+
+#instanceManagement .modal-footer .btn {
+  width: 100%;
+}
+
+#parameters {
+  margin-top: 10px;
+  margin-bottom: 20px;
+
+  .form-content {
+    margin-bottom: 0px;
+  }
+
+  select, input {
+    margin-bottom: 10px;
+  }
+
+  span.icon {
+    cursor: pointer;
+  }
+}
+
+#get-parameters {
+  margin-bottom: 20px;
+
+  .form-content {
+    margin-bottom: 0px;
+  }
+
+  span.icon {
+    cursor: pointer;
+  }
+}
+
+#set-parameters {
+  span.icon {
+    cursor: pointer;
+  }
+}
+

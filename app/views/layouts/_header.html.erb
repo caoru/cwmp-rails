@@ -1,0 +1,34 @@
+<header class="navbar navbar-fixed-top navbar-inverse">
+  <div class="container">
+    <%= link_to "CWMP", root_path, id: "logo" %>
+    <span id="info"></span>
+    <nav>
+      <ul class="nav navbar-nav navbar-right">
+        <li><%= link_to "Home",   root_path %></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            Parameters <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu">
+            <li><%= link_to "Get Parameters", values_get_path %></li>
+            <li><%= link_to "Set Parameters", values_set_path %></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" id="operations" data-toggle="dropdown">
+            Operations <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu">
+            <li><%= link_to "Get RPC Method", api_cpe_get_rpc_method_path, :id => "get_rpc_method" %></li>
+            <li><%= link_to "Get All Queued Transfers", api_cpe_get_all_queued_transfers_path, :id => "get_all_queued_transfers" %></li>
+            <li><%= link_to "Download", download_path, :id => "download" %></li>
+            <li><%= link_to "Upload", upload_path, :id => "upload" %></li>
+            <li><%= link_to "Reboot", api_cpe_reboot_path, :id => "reboot" %></li>
+            <li><%= link_to "Factory Reset", api_cpe_factory_reset_path, :id => "factory_reset" %></li>
+          </ul>
+        </li>
+        <li><%= link_to "Settings", settings_path %></li>
+      </ul>
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,90 @@
+// Place all the styles related to the StaticPages controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.settings {
+  input {
+    margin-bottom: 15px;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+.upload, .download {
+  .form-control {
+    display: unset;
+  }
+
+  label {
+    width: 100%;
+  }
+
+  input {
+    margin-bottom: 15px;
+  }
+
+  input.instance {
+    width: 15%;
+  }
+
+  select {
+    margin-bottom: 15px;
+  }
+
+  select.file_type {
+    //width: 84%;
+    width: 100%;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+.home-title {
+}
+
+.clear-block {
+  text-align: right;
+
+  .clear-messages {
+    cursor: pointer;
+    a:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+#trlog {
+  .message {
+    cursor: pointer;
+  }
+
+  .atoc {
+    color: red;
+    font-weight: bold;
+  }
+
+  .ctoa {
+    color: blue;
+    font-weight: bold;
+  }
+
+  .ip {
+    color: crimson ;
+    font-weight: bold;
+  }
+
+  .identity {
+    color: cornflowerblue ;
+    font-weight: bold;
+  }
+
+  .method {
+    color: black;
+    font-weight: bold;
+  }
+}
+

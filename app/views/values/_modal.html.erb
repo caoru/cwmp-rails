@@ -1,0 +1,42 @@
+<!-- Modal -->
+<div class="modal fade" id="instanceManagement" role="dialog">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Instance Management</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group row">
+          <div class="col-xs-4 col-xs-offset-4">
+            <label for="index">Index</label>
+            <input class="form-control" type="number" name="index" value="1" min="1" max="20">
+            <input type="hidden" name="nodeId">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+
+        <div class="row first">
+          <div class="col-xs-6">
+            <button type="button" class="btn btn-primary btn-sm setInstance" data-dismiss="modal">Set Instance</button>
+          </div>
+          <div class="col-xs-6">
+            <!-- <button type="button" class="btn btn-primary btn-sm addRequest" data-dismiss="modal">Add Request</button> -->
+            <button type="button" class="btn btn-primary btn-sm addRequest">Add Request</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-6">
+            <button type="button" class="btn btn-primary btn-sm operationObject add" data-dismiss="modal">Add Object</button>
+          </div>
+          <div class="col-xs-6">
+            <button type="button" class="btn btn-primary btn-sm operationObject delete" data-dismiss="modal">Delete Object</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+

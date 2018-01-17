@@ -1,0 +1,21 @@
+
+cpe: &cpe
+  ip: 192.168.1.1
+  port: 7547
+  path: /tr069
+  username: admin
+  password: admin
+
+acs: &acs
+  name: Rails ACS
+  username: admin
+  password: admin
+
+trxml: &trxml
+  path: config/xml/
+  xmls: &xmls
+    tr-069: tr-069-1-0-0-full.xml
+    tr-098: tr-098-1-8-0-full.xml
+    tr-143: tr-143-1-0-2-full.xml
+    tr-157: tr-157-1-3-0-full.xml
+    tr-181: tr-181-2-11-0-full.xml

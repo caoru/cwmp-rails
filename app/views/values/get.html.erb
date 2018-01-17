@@ -1,0 +1,50 @@
+<% provide(:title, "Get Parameters") %>
+
+<h1>Get Parameters</h1>
+
+<div class="row values">
+  <div class="col-md-6">
+    <div class="tr-select">
+      <label><input type="radio" name="tr_select" value="tr-069"> TR-069</label>
+      <label><input type="radio" name="tr_select" value="tr-098" checked="true"> TR-098</label>
+      <label><input type="radio" name="tr_select" value="tr-143"> TR-143</label>
+      <label><input type="radio" name="tr_select" value="tr-157"> TR-157</label>
+      <label><input type="radio" name="tr_select" value="tr-181"> TR-181</label>
+    </div>
+
+    <div id="tree" class="get">
+    </div>
+  </div>
+
+  <div id="floatPosition" class="get">
+    <div class="col-md-12">
+      <%= form_for(:api, url: api_cpe_values_path, :method => :get) do |f| %>
+
+        <div class="row">
+          <div class="col-md-3">
+            <h4>Parameters</h4>
+          </div>
+          <div class="col-md-9">
+            <div class="method-select">
+              <label><input type="radio" name="method_select" value="names"> Names</label>
+              <label><input type="radio" name="method_select" value="values" checked="true"> Values</label>
+              <label><input type="radio" name="method_select" value="attributes"> Attributes</label>
+            </div>
+          </div>
+        </div>
+
+        <div id="parameters"></div>
+
+        <%= f.submit 'Get Parameters', class: "btn btn-primary get api_values" %>
+        <%= f.button 'Clear', class: "btn btn-primary api_values" %>
+      <% end %>
+    </div>
+    <div class="col-md-12" id="parameters">
+      <h4>Response</h4>
+      <textarea name="api[response_text]" id="api_response_text"
+                cols="50" rows="10" readonly="true"></textarea>
+    </div>
+  </div>
+</div>
+<%= render 'modal' %>
+

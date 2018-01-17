@@ -1,0 +1,72 @@
+<% provide(:title, "Upload") %>
+
+<h1>Upload</h1>
+
+<div class="upload">
+  <%= form_for(:updownload, url: api_cpe_upload_path, :method => :post) do |f| %>
+    <div class="row">
+      <div class="col-md-6">
+
+        <h4>Request</h4>
+
+        <!--
+        <%= f.label :commandKey, "Command Key" %>
+        <%= f.text_field :commandKey, class: 'form-control'  %>
+        -->
+
+        <%= f.label :file_type, "File Type" %>
+        <select class="form-control file_type" name="file_type" id="updownload_file_type">
+          <option value="1 Vendor Configuration File">1 Vendor Configuration File</option>
+          <option value="2 Vendor Log File">2 Vendor Log File</option>
+          <!--
+          <option value="3 Vendor Configuration File">3 Vendor Configuration File</option>
+          <option value="4 Vendor Log File">4 Vendor Log File</option>
+          -->
+        </select>
+        <!--
+        <input class="form-control instance" type="number" name="instance" id="updownload_instance" value="1" min="1" max="20" disabled>
+        -->
+
+        <%= f.label :url, "URL" %>
+        <%= f.text_field :url, class: 'form-control'  %>
+
+        <!--
+        <%= f.label :username, "Username" %>
+        <%= f.text_field :username, class: 'form-control'  %>
+        -->
+
+        <!--
+        <%= f.label :password, "Password" %>
+        <%= f.text_field :password, class: 'form-control'  %>
+        -->
+
+        <!--
+        <%= f.label :file_size, "File Size" %>
+        <%= f.text_field :file_size, class: 'form-control'  %>
+        -->
+
+        <!--
+        <%= f.label :target_file_name, "Target File Name" %>
+        <%= f.text_field :target_file_name, class: 'form-control'  %>
+        -->
+
+        <!--
+        <%= f.label :delay_seconds, "Delay Seconds" %>
+        <%= f.text_field :delay_seconds, class: 'form-control'  %>
+        -->
+
+      </div>
+      <div class="col-md-6" id="parameters">
+        <h4>Response</h4>
+        <textarea name="api[response_text]" id="api_response_text"
+                  cols="50" rows="6" readonly="true"></textarea>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4 col-md-offset-4">
+        <%= f.submit 'Apply', class: "btn btn-primary apply_updownload upload" %>
+      </div>
+    </div>
+  <% end %>
+</div>
