@@ -31,3 +31,5 @@ log/*
 
 *.iml
 .idea
+
+config/settings.yml
