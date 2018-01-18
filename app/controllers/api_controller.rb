@@ -2,6 +2,7 @@ require 'socket'
 
 class ApiController < ApplicationController
   skip_before_action :verify_authenticity_token
+  before_action :authenticate, only: [:download_file, :upload_file]
 
   def get_token
     token = random_token = SecureRandom.urlsafe_base64(nil, false)
@@ -30,6 +31,9 @@ class ApiController < ApplicationController
         records = Dir.glob(CPE.firmware + "/Oi*.img")
         url = request.protocol + address + ":" + request.server_port.to_s + "/" +
               operation + "/" + type + "/" + records[0].to_s.gsub(CPE.firmware + "/", "")
+      elsif type == "config"
+        url = request.protocol + address + ":" + request.server_port.to_s + "/" +
+              operation + "/" + type + "/" + CPE.ip + ".xml"
       end
     end
     
@@ -47,6 +51,31 @@ class ApiController < ApplicationController
     end
 
     send_file full_name
+  end
+
+  def upload_file
+    type = params[:type]
+    content_length = request.headers["Content-Length"].to_i
+    remote_ip = request.remote_ip
+    write_length = 0
+
+    if type == "config"
+      file_name = Rails.root.join(CPE.config, remote_ip + ".xml")
+      FileUtils::mkdir_p CPE.config unless Dir.exist?(CPE.config)
+    elsif type == "log"
+      file_name = Rails.root.join(CPE.log, remote_ip + ".log")
+      FileUtils::mkdir_p CPE.log unless Dir.exist?(CPE.log)
+    end
+
+    File.open(file_name, 'w') do |f|
+      write_length += f.write request.raw_post
+    end
+
+    if content_length == write_length
+      head 200
+    else
+      head 500
+    end
   end
 
   def get_settings
@@ -227,6 +256,18 @@ class ApiController < ApplicationController
   end
 
   private
+
+    def authenticate
+      ret = authenticate_or_request_with_http_digest(ACS.name) do |username|
+        ACS.users[username]
+      end
+
+      unless ret.class == TrueClass
+        headers["Content-Length"] = ret.length.to_s
+      end
+
+      return ret
+    end
 
     def request_cpe(method, params)
       response = { :result => "true" }

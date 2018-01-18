@@ -44,6 +44,7 @@ Rails.application.routes.draw do
   get '/api/cpe/url/:operation/:type', to: 'api#get_url'
 
   get '/download/:type/:name', to: 'api#download_file', name: /[\w\d.]*/
+  put '/upload/:type', to: 'api#upload_file'
 
   get '/api/model', to: 'api#get_model'
 
@@ -57,7 +58,6 @@ Rails.application.routes.draw do
   put '/api/settings/acs', to: 'api#put_acs'
 
   post '/cwmp', to: 'cwmp#cwmp'
-  put '/upload/:type', to: 'cwmp#upload'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

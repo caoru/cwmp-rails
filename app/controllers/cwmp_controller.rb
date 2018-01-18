@@ -72,31 +72,6 @@ class CwmpController < ApplicationController
     head 204
   end
 
-  def upload
-    type = params[:type]
-    content_length = request.headers["Content-Length"].to_i
-    remote_ip = request.remote_ip
-    write_length = 0
-
-    if type == "config"
-      file_name = Rails.root.join(CPE.config, remote_ip + ".xml")
-      FileUtils::mkdir_p CPE.config unless Dir.exist?(CPE.config)
-    elsif type == "log"
-      file_name = Rails.root.join(CPE.log, remote_ip + ".log")
-      FileUtils::mkdir_p CPE.log unless Dir.exist?(CPE.log)
-    end
-
-    File.open(file_name, 'w') do |f|
-      write_length += f.write request.raw_post
-    end
-
-    if content_length == write_length
-      head 200
-    else
-      head 500
-    end
-  end
-
   private
     def authenticate
       ret = authenticate_or_request_with_http_digest(ACS.name) do |username|

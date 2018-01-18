@@ -81,6 +81,31 @@ var static_pages_ready = function() {
 
   });
 
+  $('#updownload_file_type.download').unbind( "change" );
+  $('#updownload_file_type.download').change(function() {
+    type = "";
+
+    if (this.value == "1 Firmware Upgrade Image") {
+      type = "firmware";
+    } else if (this.value == "3 Vendor Configuration File") {
+      type = "config";
+    } else {
+      $('#updownload_url').val("");
+      return ;
+    }
+ 
+    $.ajax({
+      url: "/api/cpe/url/download/" + type,
+      method: "GET",
+      success: function(data) {
+        if (data.result == "true") {
+          $('#updownload_url').val(data.url);
+        }
+      }
+    });
+
+  });
+
   $.ajax({
     url: "/api/cpe/url/upload/" + (($('#updownload_file_type').val() == "2 Vendor Log File") ? "log" : "config"),
     method: "GET",
