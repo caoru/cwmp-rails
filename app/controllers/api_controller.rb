@@ -10,18 +10,43 @@ class ApiController < ApplicationController
   end
 
   def get_url
+    url = ""
+
     ip = Socket.ip_address_list.detect{|intf| intf.ipv4_private?}
+
+    if ip
+      address = ip.ip_address
+    else
+      address = host
+    end
 
     operation = params[:operation]
     type = params[:type]
 
-    if ip
-      url = request.protocol + ip.ip_address + ":" + request.server_port.to_s + "/" + operation + "/" + type
+    if operation == "upload"
+      url = request.protocol + address.to_s + ":" + request.server_port.to_s + "/" + operation + "/" + type
     else
-      url = request.protocol + request.host_with_port + "/" + operation + "/" + type
+      if type == "firmware"
+        records = Dir.glob(CPE.firmware + "/Oi*.img")
+        url = request.protocol + address + ":" + request.server_port.to_s + "/" +
+              operation + "/" + type + "/" + records[0].to_s.gsub(CPE.firmware + "/", "")
+      end
     end
     
     json_response({ :result => "true", :url => url })
+  end
+
+  def download_file
+    type = params[:type]
+    name = params[:name]
+    full_name = CPE.file_root + "/" + type + "/" + name
+
+    unless File.file?(full_name)
+      head 404
+      return
+    end
+
+    send_file full_name
   end
 
   def get_settings

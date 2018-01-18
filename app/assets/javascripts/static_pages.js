@@ -91,6 +91,16 @@ var static_pages_ready = function() {
     }
   });
 
+  $.ajax({
+    url: "/api/cpe/url/download/" + (($('#updownload_file_type').val() == "1 Firmware Upgrade Image") ? "firmware" : "none"),
+    method: "GET",
+    success: function(data) {
+      if (data.result == "true") {
+        $('#updownload_url.download').val(data.url);
+      }
+    }
+  });
+
   $('input[name="commit"].apply_updownload').unbind( "click" );
   $('input[name="commit"].apply_updownload').click(function() {
     var api = "download";

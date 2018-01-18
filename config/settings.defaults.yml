@@ -5,6 +5,8 @@ cpe: &cpe
   path: /tr069
   username: admin
   password: admin
+  file_root: cpe
+  firmware: cpe/firmware
   config: cpe/config
   log: cpe/log
 
