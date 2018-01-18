@@ -710,10 +710,21 @@ module CwmpHelper
 
   class Upload < CwmpRequest
     def process(command)
-      parameter_string = ""
+      type = ""
+      url = ""
+      username = ""
+      password = ""
 
       command.parameters.each do |parameter|
-        parameter_string.concat(sprintf("<string>%s</string>", parameter.name))
+        if parameter.name == "type"
+          type = parameter.value
+        elsif parameter.name == "url"
+          url = parameter.value
+        elsif parameter.name == "username"
+          username = parameter.value
+        elsif parameter.name == "password"
+          password = parameter.value
+        end
       end
 
       xml = sprintf("<SOAP-ENV:Envelope
@@ -730,15 +741,17 @@ module CwmpHelper
                      <CommandKey/>
                      <FileType xsi:type=\"xsd:string\">%s</FileType>
                      <URL xsi:type=\"xsd:string\">%s</URL>
-                     <Username/>
-                     <Password/>
+                     <Username xsi:type=\"xsd:string\">%s</Username>
+                     <Password xsi:type=\"xsd:string\">%s</Password>
                      <DelaySeconds xsi:type=\"xsd:unsignedInt\">0</DelaySeconds>
                      </cwmp:Upload>
                      </SOAP-ENV:Body>
                      </SOAP-ENV:Envelope>",
                      command.requestId,
-                     command.parameters[0].type,
-                     command.parameters[0].value)
+                     type,
+                     url,
+                     username,
+                     password)
 
       return xml
     end

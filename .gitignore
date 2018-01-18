@@ -32,4 +32,8 @@ log/*
 *.iml
 .idea
 
+.*.swp
+
 config/settings.yml
+cpe
+

@@ -54,6 +54,7 @@ Rails.application.routes.draw do
   put '/api/settings/acs', to: 'api#put_acs'
 
   post '/cwmp', to: 'cwmp#cwmp'
+  put '/upload/:type', to: 'cwmp#upload'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

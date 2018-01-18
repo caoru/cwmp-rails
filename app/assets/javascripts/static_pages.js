@@ -54,6 +54,9 @@ var static_pages_ready = function() {
         $('#api_acs_name').val(data.acs.name);
         $('#api_acs_username').val(data.acs.username);
         $('#api_acs_password').val(data.acs.password);
+
+        $('#updownload_username').val(data.acs.username);
+        $('#updownload_password').val(data.acs.password);
       }
     }
   });
@@ -92,11 +95,28 @@ var static_pages_ready = function() {
       name = $('#updownload_target_file_name').val();
     } */
 
-    parameters = [{
-      "name": "none",
-      "value": $('#updownload_url').val(),
-      "type": type
-    }];
+    parameters = [
+      {
+        "name": "type",
+        "value": type,
+        "type": "string"
+      },
+      {
+        "name": "url",
+        "value": $('#updownload_url').val(),
+        "type": "string"
+      },
+      {
+        "name": "username",
+        "value": $('#updownload_username').val(),
+        "type": "string"
+      },
+      {
+        "name": "password",
+        "value": $('#updownload_password').val(),
+        "type": "string"
+      }
+    ];
 
     $('#api_response_text').val("Processing " + operation + "...");
 

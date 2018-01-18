@@ -1,7 +1,7 @@
 class Cpe
   include ActiveModel::Model
    
-  attr_accessor :ip, :port, :path, :username, :password
+  attr_accessor :ip, :port, :path, :username, :password, :config, :log
   #validates :command, :parameters, :presence: true
 
   def initialize()
@@ -10,6 +10,8 @@ class Cpe
     @path = Settings.get["cpe"]["path"]
     @username = Settings.get["cpe"]["username"]
     @password = Settings.get["cpe"]["password"]
+    @config = Settings.get["cpe"]["config"]
+    @log = Settings.get["cpe"]["log"]
   end
 
   def from_hash(hash)
