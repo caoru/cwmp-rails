@@ -38,8 +38,24 @@
     width: 100%;
   }
 
+  #updownload_url.download {
+    width: 100%;
+  }
+
+  #updownload_file_name {
+    width: 84%;
+  }
+
   .btn {
     width: 100%;
+  }
+
+  .width-15 {
+    width: 15%;
+  }
+
+  .hidden {
+    display: block;
   }
 }
 
@@ -100,3 +116,32 @@
   }
 }
 
+#progress-wrp {
+  border: 1px solid #0099CC;
+  padding: 1px;
+  position: relative;
+  height: 30px;
+  border-radius: 3px;
+  margin: 0px;
+  text-align: left;
+  background: #fff;
+  box-shadow: inset 1px 3px 6px rgba(0, 0, 0, 0.12);
+}
+#progress-wrp .progress-bar{
+  height: 100%;
+  border-radius: 3px;
+  background-color: #337ab7;
+  width: 0;
+  box-shadow: inset 1px 1px 10px rgba(0, 0, 0, 0.11);
+}
+#progress-wrp .status{
+  top:3px;
+  left:50%;
+  position:absolute;
+  display:inline-block;
+  color: #000000;
+}
+
+#flash {
+  display: none;
+}

@@ -45,6 +45,7 @@ Rails.application.routes.draw do
 
   get '/download/:type/:name', to: 'api#download_file', name: /[\w\d.]*/
   put '/upload/:type', to: 'api#upload_file'
+  post '/upload/:type', to: 'api#upload_file_acs'
 
   get '/api/model', to: 'api#get_model'
 

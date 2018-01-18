@@ -3,7 +3,10 @@
 <h1>Download</h1>
 
 <div class="download">
-  <%= form_for(:updownload, url: api_cpe_download_path, :method => :post) do |f| %>
+  <div id="flash">
+  </div>
+
+  <%= form_for(:updownload, url: upload_path, :method => :post, :html => { :id => "download_form" }) do |f| %>
     <div class="row">
       <div class="col-md-6">
 
@@ -16,15 +19,21 @@
 
         <%= f.label :file_type, "File Type" %>
         <select class="form-control file_type download" name="file_type" id="updownload_file_type">
-          <option value="1 Firmware Upgrade Image">1 Firmware Upgrade Image</option>
-          <option value="2 Web Content">2 Web Content</option>
-          <option value="3 Vendor Configuration File">3 Vendor Configuration File</option>
-          <option value="4 Tone File">4 Tone File</option>
-          <option value="5 Ringer File">5 Ringer File</option>
+          <option value="firmware">1 Firmware Upgrade Image</option>
+          <option value="none">2 Web Content</option>
+          <option value="config">3 Vendor Configuration File</option>
+          <option value="none">4 Tone File</option>
+          <option value="none">5 Ringer File</option>
         </select>
 
         <%= f.label :url, "URL" %>
         <%= f.text_field :url, class: 'form-control download'  %>
+        <%= f.file_field :file_name, class: 'form-control' %>
+        <%= f.button :Upload, class: 'form-control width-15 btn btn-primary', id: 'upload_file'  %>
+        <div id="progress-wrp">
+          <div class="progress-bar"></div>
+          <div class="status">0%</div>
+        </div>
 
         <%= f.label :username, "Username" %>
         <%= f.text_field :username, class: 'form-control'  %>

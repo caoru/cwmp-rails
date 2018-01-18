@@ -1,3 +1,114 @@
+function get_url() {
+  var operation = "download";
+
+  if ($('#updownload_file_type').hasClass("upload")) {
+    operation = "upload";
+  }
+
+  $.ajax({
+    url: "/api/cpe/url/" + operation + "/" + $('#updownload_file_type').val(),
+    method: "GET",
+    success: function(data) {
+      if (data.result == "true") {
+        $('#updownload_url').val(data.url);
+
+        if (data.url.startsWith("File")) {
+          $('#upload_file').css("display", "inline");
+          $('#updownload_file_name').css("display", "inline");
+          $('#progress-wrp').css("display", "none");
+          $('#updownload_url.download').css("display", "none");
+        } else {
+          $('#upload_file').css("display", "none");
+          $('#updownload_file_name').css("display", "none");
+          $('#progress-wrp').css("display", "none");
+          $('#updownload_url.download').css("display", "inline");
+        }
+      }
+    }
+  });
+}
+
+function show_flash(type, title, desc) {
+  $('#flash').append(
+    '<div class="alert alert-' + type + ' fade in">' +
+      '<a href="#" class="close" data-dismiss="alert">&times;</a>' +
+      '<strong><span class="title">' + title + '</span></strong> <span class="desc">' + desc + '</span>' +
+    '</div>'
+    );
+  $('#flash').css("display", "block");
+}
+
+var Upload = function (file) {
+  this.file = file;
+};
+
+Upload.prototype.getType = function() {
+  return this.file.type;
+};
+Upload.prototype.getSize = function() {
+  return this.file.size;
+};
+Upload.prototype.getName = function() {
+  return this.file.name;
+};
+Upload.prototype.doUpload = function () {
+  var type = $('#updownload_file_type').val();
+  var that = this;
+  var formData = new FormData();
+
+  // add assoc key values, this will be posts values
+  formData.append("file", this.file, this.getName());
+  formData.append("upload_file", true);
+
+  $('#progress-wrp').css("display", "block");
+
+  $.ajax({
+    type: "POST",
+    url: "/upload/" + type,
+    xhr: function () {
+      var myXhr = $.ajaxSettings.xhr();
+      if (myXhr.upload) {
+        myXhr.upload.addEventListener('progress', that.progressHandling, false);
+      }
+      return myXhr;
+    },
+    success: function (data) {
+      // your callback here
+      show_flash("success", "Success!", "File upload successfully.");
+
+      get_url();
+    },
+    error: function (error) {
+      console.log("error");
+      // handle error
+      $("#progress-wrp .progress-bar").css("width", "0%");
+      $("#progress-wrp .status").text("0%");
+      $("#progress-wrp").css("display", "none");
+      show_flash("danger", "Error!", "File upload failure.");
+    },
+    async: true,
+    data: formData,
+    cache: false,
+    contentType: false,
+    processData: false,
+    timeout: 60000
+  });
+};
+    
+Upload.prototype.progressHandling = function (event) {
+  var percent = 0;
+  var position = event.loaded || event.position;
+  var total = event.total;
+  var progress_bar_id = "#progress-wrp";
+
+  if (event.lengthComputable) {
+    percent = Math.ceil(position / total * 100);
+  }
+
+  // update progressbars classes so it fits your code
+  $(progress_bar_id + " .progress-bar").css("width", +percent + "%");
+  $(progress_bar_id + " .status").text(percent + "%");
+};
 
 var static_pages_ready = function() {
   /*
@@ -7,6 +118,11 @@ var static_pages_ready = function() {
     return false;
   });
   */
+
+  $('#flash .close').unbind( "click" );
+  $('#flash .close').click(function(e) {
+    $('#flash').css("display", "none");
+  });
 
   $('.settings .apply').unbind( "click" );
   $('.settings .apply').click(function(e) {
@@ -61,97 +177,42 @@ var static_pages_ready = function() {
     }
   });
 
-  $('#updownload_file_type.upload').unbind( "change" );
-  $('#updownload_file_type.upload').change(function() {
-    type = "config";
+  get_url();
 
-    if (this.value == "2 Vendor Log File") {
-      type = "log";
-    }
-
-    $.ajax({
-      url: "/api/cpe/url/upload/" + type,
-      method: "GET",
-      success: function(data) {
-        if (data.result == "true") {
-          $('#updownload_url').val(data.url);
-        }
-      }
-    });
-
+  $('#updownload_file_type').unbind( "change" );
+  $('#updownload_file_type').change(function() {
+    get_url();
   });
 
-  $('#updownload_file_type.download').unbind( "change" );
-  $('#updownload_file_type.download').change(function() {
-    type = "";
+  $('#upload_file').unbind( "click" );
+  $('#upload_file').click(function() {
+    var file = $("#updownload_file_name")[0].files[0];
+    var upload = new Upload(file);
 
-    if (this.value == "1 Firmware Upgrade Image") {
-      type = "firmware";
-    } else if (this.value == "3 Vendor Configuration File") {
-      type = "config";
-    } else {
-      $('#updownload_url').val("");
-      return ;
-    }
- 
-    $.ajax({
-      url: "/api/cpe/url/download/" + type,
-      method: "GET",
-      success: function(data) {
-        if (data.result == "true") {
-          $('#updownload_url').val(data.url);
-        }
-      }
-    });
+    // maby check size or type here with upload.getSize() and upload.getType()
+    
+    // execute upload
+    upload.doUpload();
 
-  });
-
-  $.ajax({
-    url: "/api/cpe/url/upload/" + (($('#updownload_file_type').val() == "2 Vendor Log File") ? "log" : "config"),
-    method: "GET",
-    success: function(data) {
-      if (data.result == "true") {
-        $('#updownload_url.upload').val(data.url);
-      }
-    }
-  });
-
-  $.ajax({
-    url: "/api/cpe/url/download/" + (($('#updownload_file_type').val() == "1 Firmware Upgrade Image") ? "firmware" : "none"),
-    method: "GET",
-    success: function(data) {
-      if (data.result == "true") {
-        $('#updownload_url.download').val(data.url);
-      }
-    }
+    return false;
   });
 
   $('input[name="commit"].apply_updownload').unbind( "click" );
   $('input[name="commit"].apply_updownload').click(function() {
     var api = "download";
     var operation = "Download";
-    var type = $('#updownload_file_type').val()
-    //var name = "";
 
     gRequestId = Date.now();
-
-    /*
-    if ($('#updownload_instance').attr('disabled') == undefined) {
-      type += " " + $('#updownload_instance').val();
-    }
-    */
 
     if ($(this).hasClass("upload")) {
       api = "upload";
       operation = "Upload";
-    } /* else {
-      name = $('#updownload_target_file_name').val();
-    } */
+    }
 
     parameters = [
       {
         "name": "type",
-        "value": type,
+        "value": $('#updownload_file_type option:selected').text(),
         "type": "string"
       },
       {

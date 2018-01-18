@@ -27,13 +27,21 @@ class ApiController < ApplicationController
     if operation == "upload"
       url = request.protocol + address.to_s + ":" + request.server_port.to_s + "/" + operation + "/" + type
     else
+      records = nil
+
       if type == "firmware"
         records = Dir.glob(CPE.firmware + "/Oi*.img")
-        url = request.protocol + address + ":" + request.server_port.to_s + "/" +
-              operation + "/" + type + "/" + records[0].to_s.gsub(CPE.firmware + "/", "")
       elsif type == "config"
+        records = Dir.glob(CPE.config + "/" + CPE.ip + ".xml")
+      end
+
+      if records.nil?
+        url = "Not supported.";
+      elsif records.empty?
+        url = "File not exist, upload file.";
+      else
         url = request.protocol + address + ":" + request.server_port.to_s + "/" +
-              operation + "/" + type + "/" + CPE.ip + ".xml"
+              operation + "/" + type + "/" + records[0].to_s.gsub(CPE.file_root + "/" + type + "/", "")
       end
     end
     
@@ -76,6 +84,19 @@ class ApiController < ApplicationController
     else
       head 500
     end
+  end
+
+  def upload_file_acs
+    if params[:type] == "firmware"
+      file_name = Rails.root.join(CPE.firmware, params[:file].original_filename)
+      FileUtils::mkdir_p CPE.firmware unless Dir.exist?(CPE.firmware)
+
+      File.open(file_name,'wb') do |file| 
+        file.write(params[:file].read)
+      end
+    end
+
+    head 200
   end
 
   def get_settings
