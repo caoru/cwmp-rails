@@ -15,7 +15,7 @@
         -->
 
         <%= f.label :file_type, "File Type" %>
-        <select class="form-control file_type" name="file_type" id="updownload_file_type">
+        <select class="form-control file_type upload" name="file_type" id="updownload_file_type">
           <option value="1 Vendor Configuration File">1 Vendor Configuration File</option>
           <option value="2 Vendor Log File">2 Vendor Log File</option>
           <!--
@@ -28,7 +28,7 @@
         -->
 
         <%= f.label :url, "URL" %>
-        <%= f.text_field :url, class: 'form-control'  %>
+        <%= f.text_field :url, class: 'form-control upload'  %>
 
         <%= f.label :username, "Username" %>
         <%= f.text_field :username, class: 'form-control'  %>

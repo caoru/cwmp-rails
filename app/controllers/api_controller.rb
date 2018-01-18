@@ -1,3 +1,5 @@
+require 'socket'
+
 class ApiController < ApplicationController
   skip_before_action :verify_authenticity_token
 
@@ -5,6 +7,21 @@ class ApiController < ApplicationController
     token = random_token = SecureRandom.urlsafe_base64(nil, false)
 
     json_response({ :token => token })
+  end
+
+  def get_url
+    ip = Socket.ip_address_list.detect{|intf| intf.ipv4_private?}
+
+    operation = params[:operation]
+    type = params[:type]
+
+    if ip
+      url = request.protocol + ip.ip_address + ":" + request.server_port.to_s + "/" + operation + "/" + type
+    else
+      url = request.protocol + request.host_with_port + "/" + operation + "/" + type
+    end
+    
+    json_response({ :result => "true", :url => url })
   end
 
   def get_settings

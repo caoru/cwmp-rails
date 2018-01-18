@@ -61,17 +61,35 @@ var static_pages_ready = function() {
     }
   });
 
-  /*
-  $('#updownload_file_type').unbind( "click" );
-  $('#updownload_file_type').change(function() {
-    if ((this.value == "1 Vendor Configuration File") ||
-        (this.value == "2 Vendor Log File")) {
-      $('#updownload_instance').attr('disabled', 'disabled');
-    } else {
-      $('#updownload_instance').removeAttr('disabled');
+  $('#updownload_file_type.upload').unbind( "change" );
+  $('#updownload_file_type.upload').change(function() {
+    type = "config";
+
+    if (this.value == "2 Vendor Log File") {
+      type = "log";
+    }
+
+    $.ajax({
+      url: "/api/cpe/url/upload/" + type,
+      method: "GET",
+      success: function(data) {
+        if (data.result == "true") {
+          $('#updownload_url').val(data.url);
+        }
+      }
+    });
+
+  });
+
+  $.ajax({
+    url: "/api/cpe/url/upload/" + (($('#updownload_file_type').val() == "2 Vendor Log File") ? "log" : "config"),
+    method: "GET",
+    success: function(data) {
+      if (data.result == "true") {
+        $('#updownload_url.upload').val(data.url);
+      }
     }
   });
-  */
 
   $('input[name="commit"].apply_updownload').unbind( "click" );
   $('input[name="commit"].apply_updownload').click(function() {

@@ -41,6 +41,7 @@ Rails.application.routes.draw do
 
   post '/api/cpe/download', to: 'api#post_download'
   post '/api/cpe/upload', to: 'api#post_upload'
+  get '/api/cpe/url/:operation/:type', to: 'api#get_url'
 
   get '/api/model', to: 'api#get_model'
 
