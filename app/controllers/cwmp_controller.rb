@@ -104,7 +104,7 @@ class CwmpController < ApplicationController
       message.direction = "atoc"
       MESSAGES[message.epoch] = message
 
-      log_string = sprintf("<span class=\"atoc\">A->C</span> %s <span class=\"ip\">%s</span> ID: %s <span class=\"method\">%s</span>",
+      log_string = sprintf("<span class=\"atoc\">A->C</span> <span class=\"timestamp\">%s</span> <span class=\"ip\">%s</span> <span class=\"cwmpid\">ID: %s</span> <span class=\"method\">%s</span>",
                            received, CPE.ip, id, method)
 
       html = sprintf("<a class=\"list-group-item message\" onclick=\"javascript:getXml(%s);return false;\">%s</a>", received.to_f.to_s, log_string)
@@ -124,7 +124,7 @@ class CwmpController < ApplicationController
         event_codes = xml_doc.xpath("//EventCode")
         event_code_string = ""
 
-        log_string = sprintf("<span class=\"ctoa\">C->A</span> %s <span class=\"ip\">%s</span> ID: %s <span class=\"identity\">%s-%s-%s</span> Event: ",
+        log_string = sprintf("<span class=\"ctoa\">C->A</span> <span class=\"timestamp\">%s</span> <span class=\"ip\">%s</span> <span class=\"cwmpid\">ID: %s</span> <span class=\"identity\">%s-%s-%s</span> Event: ",
                              received, remote_ip, id, oui, product_class, serial_number)
 
         event_codes.each do |event_code|
@@ -137,7 +137,7 @@ class CwmpController < ApplicationController
         log_string.concat(event_code_string)
         log_string.concat(" <span class=\"method\">Inform</span>")
       else
-        log_string = sprintf("<span class=\"ctoa\">C->A</span> %s <span class=\"ip\">%s</span> ID: %s <span class=\"method\">%s</span>",
+        log_string = sprintf("<span class=\"ctoa\">C->A</span> <span class=\"timestamp\">%s</span> <span class=\"ip\">%s</span> <span class=\"cwmpid\">ID: %s</span> <span class=\"method\">%s</span>",
                              received, remote_ip, id, method)
       end
 

@@ -147,7 +147,7 @@ class ApiController < ApplicationController
 
       if value.method == "Inform"
         message[:string] = 
-          sprintf("<span class=\"ctoa\">C->A</span> %s <span class=\"ip\">%s</span> ID: %s <span class=\"identity\">%s-%s-%s</span> Event: %s <span class=\"method\">Inform</span>",
+          sprintf("<span class=\"ctoa\">C->A</span> <span class=\"timestamp\">%s</span> <span class=\"ip\">%s</span> <span class=\"cwmpid\">ID: %s</span> <span class=\"identity\">%s-%s-%s</span> Event: %s <span class=\"method\">Inform</span>",
                   value.received,
                   value.ip,
                   value.id,
@@ -157,14 +157,14 @@ class ApiController < ApplicationController
                   value.events)
       elsif value.direction == "ctoa"
         message[:string] = 
-          sprintf("<span class=\"ctoa\">C->A</span> %s <span class=\"ip\">%s</span> ID: %s <span class=\"method\">%s</span>",
+          sprintf("<span class=\"ctoa\">C->A</span> <span class=\"timestamp\">%s</span> <span class=\"ip\">%s</span> <span class=\"cwmpid\">ID: %s</span> <span class=\"method\">%s</span>",
                   value.received,
                   value.ip,
                   value.id,
                   value.method)
       else
         message[:string] = 
-          sprintf("<span class=\"atoc\">A->C</span> %s <span class=\"ip\">%s</span> ID: %s <span class=\"method\">%s</span>",
+          sprintf("<span class=\"atoc\">A->C</span> <span class=\"timestamp\">%s</span> <span class=\"ip\">%s</span> <span class=\"cwmpid\">ID: %s</span> <span class=\"method\">%s</span>",
                   value.received,
                   value.ip,
                   value.id,
