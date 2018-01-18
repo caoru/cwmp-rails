@@ -77,14 +77,12 @@ class CwmpController < ApplicationController
     content_length = request.headers["Content-Length"].to_i
     remote_ip = request.remote_ip
     write_length = 0
-    file_name = "cpe_" + remote_ip + ".xml"
-
 
     if type == "config"
       file_name = Rails.root.join(CPE.config, remote_ip + ".xml")
       FileUtils::mkdir_p CPE.config unless Dir.exist?(CPE.config)
     elsif type == "log"
-      file_name = Rails.root.join(CPE.log, remote_ip + ".xml")
+      file_name = Rails.root.join(CPE.log, remote_ip + ".log")
       FileUtils::mkdir_p CPE.log unless Dir.exist?(CPE.log)
     end
 
