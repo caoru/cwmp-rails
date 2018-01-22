@@ -108,7 +108,7 @@ class CwmpController < ApplicationController
       log_string = sprintf("<span class=\"atoc\">A->C</span> <span class=\"timestamp\">%s</span> <span class=\"ip\">%s</span> <span class=\"cwmpid\">ID: %s</span> <span class=\"method\">%s</span>",
                            received, CPE.ip, id, method)
 
-      html = sprintf("<a class=\"list-group-item message\" onclick=\"javascript:getXml(%s);return false;\">%s</a>", received.to_f.to_s, log_string)
+      html = sprintf("<a class=\"list-group-item message\" href=\"/api/cpe/message.xml?epoch=%s\" target=\"_blank\">%s</a>", received.to_f.to_s, log_string)
       ActionCable.server.broadcast "trlog", html: html
     end
 
@@ -142,7 +142,7 @@ class CwmpController < ApplicationController
                              received, remote_ip, id, method)
       end
 
-      html = sprintf("<a class=\"list-group-item message\" onclick=\"javascript:getXml(%s);return false;\">%s</a>", epoch, log_string)
+      html = sprintf("<a class=\"list-group-item message\" href=\"/api/cpe/message.xml?epoch=%s\" target=\"_blank\">%s</a>", epoch, log_string)
       ActionCable.server.broadcast "trlog", html: html
     end
 end

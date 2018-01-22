@@ -257,10 +257,14 @@ var static_pages_ready = function() {
     success: function(data) {
       if (data.result == "true") {
         $.each(data.messages, function(i, entry) {
+          /*
           html = "<a class=\"list-group-item message\" onclick=\"javascript:getXml(" + entry.epoch +
                  ");return false;\">" + entry.string +
                  "</a>";
-          //$('#trlog').append(html);
+          */
+          html = "<a class=\"list-group-item message\" " +
+                 "href=\"/api/cpe/message.xml?epoch=" + entry.epoch + "\" target=\"_blank\">" +
+                 entry.string + "</a>";
           $("#trlog").prepend(html);
         });
       }
