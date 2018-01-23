@@ -48,6 +48,7 @@ Rails.application.routes.draw do
   post '/upload/:type', to: 'api#upload_file_acs'
 
   get '/api/model', to: 'api#get_model'
+  post '/api/model', to: 'api#post_model'
 
   get '/api/settings', to: 'api#get_settings'
   put '/api/settings', to: 'api#put_settings'

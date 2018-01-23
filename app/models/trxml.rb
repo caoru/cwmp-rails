@@ -43,6 +43,8 @@ class Trxml
 
           if type == "dataType"
             type = child_entry.xpath("syntax/*")[0]["ref"]
+          elsif type == "list"
+            type = "string(list)"
           end
 
           enums = []
@@ -100,7 +102,7 @@ class Trxml
           item[:text] = str
           item[:nodes] = []
           item[:name] = str
-          item[:type] = "none"
+          item[:type] = "object"
           item[:access] = access
           if str == "{i}"
             item[:nodeType] = "instance"

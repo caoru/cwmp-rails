@@ -148,6 +148,19 @@ class ApiController < ApplicationController
     json_response(tree)
   end
 
+  def post_model
+    if params[:tr].nil? || params[:file].nil? 
+      head 500
+      return
+    end
+
+    model = TRXML.models[params[:tr]]
+
+    save_model(model, params[:file])
+
+    head 200
+  end
+
   def get_values
     request_cpe("GetParameterValues", params)
   end
@@ -335,4 +348,242 @@ class ApiController < ApplicationController
       return command
     end
 
+    def save_model(model, file)
+      indent = 3
+      file = File.open(file, 'w')
+
+      write_header(file)
+
+      write_indent(indent, file)
+      file.write "<parameters>\n"
+
+      process_node(model, indent + 2, file)
+
+      write_indent(indent, file)
+      file.write "</parameters>\n"
+
+      write_tail(file)
+
+      file.close
+    end
+
+    def write_indent(indent, file)
+      for counter in 0..indent
+        file.write " " 
+      end
+    end
+
+    def write_parameter_name(name, indent, file)
+      write_indent(indent, file)
+      file.write "<parameterName>" + name + "</parameterName>\n"
+    end
+
+    def write_parameter_type(type, indent, file)
+      write_indent(indent, file)
+      file.write "<parameterType>"
+
+      if type == "unsignedInt"
+        file.write "unsignedInt"
+      elsif type == "boolean"
+        file.write "boolean"
+      elsif type == "object"
+        file.write "object"
+      else
+        file.write "string"
+      end
+
+      file.write"</parameterType>\n"
+    end
+
+    def write_parameter(entry, indent, file)
+      write_parameter_name(entry[:name], indent, file)
+      write_parameter_type(entry[:type], indent, file)
+    end
+
+    def process_node(node, indent, file)
+      node.each do |entry|
+        nodeType = entry[:nodeType]
+
+        if nodeType == "node"
+          write_indent(indent, file)
+          file.write "<parameter>\n"
+
+          write_parameter(entry, indent + 2, file)
+
+          write_indent(indent + 2, file)
+          file.write "<array>"
+          if entry[:nodes].length == 0
+            file.write "flase"
+          elsif entry[:nodes][0][:nodeType] == "instance"
+            file.write "true"
+          else
+            file.write "flase"
+          end
+          file.write "</array>\n"
+
+          write_indent(indent + 2, file)
+          file.write "<parameters>\n"
+          if entry[:nodes].length == 0
+          elsif entry[:nodes][0][:nodeType] == "instance"
+            process_node(entry[:nodes][0][:nodes], indent + 4, file)
+          else
+            process_node(entry[:nodes], indent + 4, file)
+          end
+          write_indent(indent + 2, file)
+          file.write "</parameters>\n"
+
+          write_indent(indent, file)
+          file.write "</parameter>\n"
+        elsif nodeType == "leaf"
+          write_indent(indent, file)
+          file.write "<parameter>\n"
+
+          write_parameter(entry, indent + 2, file)
+
+          write_indent(indent, file)
+          file.write "</parameter>\n"
+        end
+      end
+    end
+
+    def write_header(file)
+      file.write "<deviceType xmlns=\"urn:dslforum-org:hdm-0-0\" " +
+                 "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " +
+                 "xsi:schemaLocation=\"urn:dslforum-org:hdm-0-0 deviceType.xsd\">\n"
+      file.write "  <protocol>DEVICE_PROTOCOL_DSLFTR069v1</protocol>\n"
+      file.write "  <manufacturer>Kaonmedia</manufacturer>\n"
+      file.write "  <manufacturerOUI>808C97</manufacturerOUI>\n"
+      file.write "  <productClass>DG2201</productClass>\n"
+      file.write "  <modelName>DG2201</modelName>\n"
+      file.write "  <dataModel>\n"
+      file.write "    <attributes>\n"
+      file.write "      <attribute>\n"
+      file.write "        <attributeName>notification</attributeName>\n"
+      file.write "        <attributeType>int</attributeType>\n"
+      file.write "        <minValue>0</minValue>\n"
+      file.write "        <maxValue>2</maxValue>\n"
+      file.write "      </attribute>\n"
+      file.write "      <attribute>\n"
+      file.write "        <attributeName>accessList</attributeName>\n"
+      file.write "        <attributeType>string</attributeType>\n"
+      file.write "        <array>true</array>\n"
+      file.write "        <attributeLength>64</attributeLength>\n"
+      file.write "      </attribute>\n"
+      file.write "      <attribute>\n"
+      file.write "        <attributeName>visibility</attributeName>\n"
+      file.write "        <attributeType>string</attributeType>\n"
+      file.write "        <attributeLength>64</attributeLength>\n"
+      file.write "      </attribute>\n"
+      file.write "    </attributes>\n"
+    end
+
+    def write_tail(file)
+      file.write "  </dataModel>\n"
+      file.write "  <baselineConfiguration>\n"
+      file.write "    <parameterValues>\n"
+      file.write "      <parameterValue>\n"
+      file.write "        <parameterName>InternetGatewayDevice</parameterName>\n"
+      file.write "        <parameterValues>\n"
+      file.write "          <parameterValue>\n"
+      file.write "            <parameterName>DeviceInfo</parameterName>\n"
+      file.write "            <parameterValues>\n"
+      file.write "              <parameterValue>\n"
+      file.write "                <parameterName>SoftwareVersion</parameterName>\n"
+      file.write "                <attributeValues>\n"
+      file.write "                  <attributeValue>\n"
+      file.write "                    <attributeName>notification</attributeName>\n"
+      file.write "                    <value>2</value>\n"
+      file.write "                  </attributeValue>\n"
+      file.write "                </attributeValues>\n"
+      file.write "              </parameterValue>\n"
+      file.write "              <parameterValue>\n"
+      file.write "                <parameterName>ProvisioningCode</parameterName>\n"
+      file.write "                <attributeValues>\n"
+      file.write "                  <attributeValue>\n"
+      file.write "                    <attributeName>notification</attributeName>\n"
+      file.write "                    <value>2</value>\n"
+      file.write "                  </attributeValue>\n"
+      file.write "                </attributeValues>\n"
+      file.write "              </parameterValue>\n"
+      file.write "            </parameterValues>\n"
+      file.write "          </parameterValue>\n"
+      file.write "          <parameterValue>\n"
+      file.write "            <parameterName>ManagementServer</parameterName>\n"
+      file.write "            <parameterValues>\n"
+      file.write "              <parameterValue>\n"
+      file.write "                <parameterName>ConnectionRequestURL</parameterName>\n"
+      file.write "                <attributeValues>\n"
+      file.write "                  <attributeValue>\n"
+      file.write "                    <attributeName>notification</attributeName>\n"
+      file.write "                    <value>2</value>\n"
+      file.write "                  </attributeValue>\n"
+      file.write "                </attributeValues>\n"
+      file.write "              </parameterValue>\n"
+      file.write "            </parameterValues>\n"
+      file.write "          </parameterValue>\n"
+      file.write "          <parameterValue>\n"
+      file.write "            <parameterName>LANDevice</parameterName>\n"
+      file.write "            <parameterValues>\n"
+      file.write "              <parameterValue>\n"
+      file.write "                <parameterName>WLANConfiguration</parameterName>\n"
+      file.write "                <parameterValues>\n"
+      file.write "                  <parameterValue>\n"
+      file.write "                    <parameterName>Enable</parameterName>\n"
+      file.write "                    <attributeValues>\n"
+      file.write "                      <attributeValue>\n"
+      file.write "                        <attributeName>notification</attributeName>\n"
+      file.write "                        <value>2</value>\n"
+      file.write "                      </attributeValue>\n"
+      file.write "                    </attributeValues>\n"
+      file.write "                  </parameterValue>\n"
+      file.write "                </parameterValues>\n"
+      file.write "              </parameterValue>\n"
+      file.write "            </parameterValues>\n"
+      file.write "          </parameterValue>\n"
+      file.write "          <parameterValue>\n"
+      file.write "            <parameterName>WANDevice</parameterName>\n"
+      file.write "            <parameterValues>\n"
+      file.write "              <parameterValue>\n"
+      file.write "                <parameterName>WANConnectionDevice</parameterName>\n"
+      file.write "                <parameterValues>\n"
+      file.write "                  <parameterValue>\n"
+      file.write "                    <parameterName>WANIPConnection</parameterName>\n"
+      file.write "                    <parameterValues>\n"
+      file.write "                      <parameterValue>\n"
+      file.write "                        <parameterName>ExternalIPAddress</parameterName>\n"
+      file.write "                        <attributeValues>\n"
+      file.write "                          <attributeValue>\n"
+      file.write "                            <attributeName>notification</attributeName>\n"
+      file.write "                            <value>2</value>\n"
+      file.write "                          </attributeValue>\n"
+      file.write "                        </attributeValues>\n"
+      file.write "                      </parameterValue>\n"
+      file.write "                    </parameterValues>\n"
+      file.write "                  </parameterValue>\n"
+      file.write "                  <parameterValue>\n"
+      file.write "                    <parameterName>WANPPPConnection</parameterName>\n"
+      file.write "                    <parameterValues>\n"
+      file.write "                      <parameterValue>\n"
+      file.write "                        <parameterName>ExternalIPAddress</parameterName>\n"
+      file.write "                        <attributeValues>\n"
+      file.write "                          <attributeValue>\n"
+      file.write "                            <attributeName>notification</attributeName>\n"
+      file.write "                            <value>2</value>\n"
+      file.write "                          </attributeValue>\n"
+      file.write "                        </attributeValues>\n"
+      file.write "                      </parameterValue>\n"
+      file.write "                    </parameterValues>\n"
+      file.write "                  </parameterValue>\n"
+      file.write "                </parameterValues>\n"
+      file.write "              </parameterValue>\n"
+      file.write "            </parameterValues>\n"
+      file.write "          </parameterValue>\n"
+      file.write "        </parameterValues>\n"
+      file.write "      </parameterValue>\n"
+      file.write "    </parameterValues>\n"
+      file.write "  </baselineConfiguration>\n"
+      file.write "</deviceType>\n"
+    end
+
 end
+
