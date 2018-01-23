@@ -41,6 +41,10 @@ class Trxml
           access = child_entry["access"]
           type = child_entry.xpath("syntax/*")[0].name
 
+          if type == "dataType"
+            type = child_entry.xpath("syntax/*")[0]["ref"]
+          end
+
           enums = []
           child_entry.xpath("syntax/string/enumeration").each do |enumeration_entry|
             if enumeration_entry["access"] != "readOnly"
