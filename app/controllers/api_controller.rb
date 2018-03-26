@@ -413,11 +413,11 @@ class ApiController < ApplicationController
           write_indent(indent + 2, file)
           file.write "<array>"
           if entry[:nodes].length == 0
-            file.write "flase"
+            file.write "false"
           elsif entry[:nodes][0][:nodeType] == "instance"
             file.write "true"
           else
-            file.write "flase"
+            file.write "false"
           end
           file.write "</array>\n"
 
