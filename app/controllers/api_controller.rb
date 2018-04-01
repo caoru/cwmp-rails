@@ -58,6 +58,8 @@ class ApiController < ApplicationController
       return
     end
 
+    headers["Content-Length"] = File.size(full_name)
+
     send_file full_name
   end
 
