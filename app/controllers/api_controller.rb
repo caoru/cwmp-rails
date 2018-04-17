@@ -30,7 +30,7 @@ class ApiController < ApplicationController
       records = nil
 
       if type == "firmware"
-        records = Dir.glob(CPE.firmware + "/Oi*.img")
+        records = Dir.glob(CPE.firmware + "/" + ACS.firmware_prefix + "*")
       elsif type == "config"
         records = Dir.glob(CPE.config + "/" + CPE.ip + ".xml")
       end

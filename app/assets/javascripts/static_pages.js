@@ -140,7 +140,9 @@ var static_pages_ready = function() {
         "acs": {
           "name": $('#api_acs_name').val(),
           "username": $('#api_acs_username').val(),
-          "password": $('#api_acs_password').val()
+          "password": $('#api_acs_password').val(),
+          "firmware_prefix": $('#api_acs_firmware_prefix').val(),
+          "default_model": $('#api_acs_default_model').val()
         }
       },
       success: function(data) {
@@ -170,6 +172,8 @@ var static_pages_ready = function() {
         $('#api_acs_name').val(data.acs.name);
         $('#api_acs_username').val(data.acs.username);
         $('#api_acs_password').val(data.acs.password);
+        $('#api_acs_firmware_prefix').val(data.acs.firmware_prefix);
+        $('#api_acs_default_model').val(data.acs.default_model);
 
         $('#updownload_username').val(data.acs.username);
         $('#updownload_password').val(data.acs.password);

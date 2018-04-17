@@ -5,11 +5,11 @@
 <div class="row values">
   <div class="col-md-6">
     <div class="tr-select">
-      <label><input type="radio" name="tr_select" value="tr-069"> TR-069</label>
-      <label><input type="radio" name="tr_select" value="tr-098"> TR-098</label>
-      <label><input type="radio" name="tr_select" value="tr-143"> TR-143</label>
-      <label><input type="radio" name="tr_select" value="tr-157"> TR-157</label>
-      <label><input type="radio" name="tr_select" value="tr-181" checked="true"> TR-181</label>
+      <label><input type="radio" name="tr_select" value="tr-069" <% if @default_model == "tr-069" %>checked="true"<% end %>> TR-069</label>
+      <label><input type="radio" name="tr_select" value="tr-098" <% if @default_model == "tr-098" %>checked="true"<% end %>> TR-098</label>
+      <label><input type="radio" name="tr_select" value="tr-143" <% if @default_model == "tr-143" %>checked="true"<% end %>> TR-143</label>
+      <label><input type="radio" name="tr_select" value="tr-157" <% if @default_model == "tr-157" %>checked="true"<% end %>> TR-157</label>
+      <label><input type="radio" name="tr_select" value="tr-181" <% if @default_model == "tr-181" %>checked="true"<% end %>> TR-181</label>
     </div>
 
     <div id="tree" class="set">

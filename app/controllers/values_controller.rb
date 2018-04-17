@@ -1,8 +1,10 @@
 class ValuesController < ApplicationController
   def get
+    @default_model = ACS.default_model
   end
 
   def set
+    @default_model = ACS.default_model
   end
 
   def form_get

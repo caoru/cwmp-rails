@@ -14,6 +14,8 @@ acs: &acs
   name: Rails ACS
   username: admin
   password: admin
+  firmware_prefix: Oi
+  default_model: tr-098
 
 trxml: &trxml
   path: config/xml/
