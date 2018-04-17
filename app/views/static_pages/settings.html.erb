@@ -43,7 +43,11 @@
         <%= f.text_field :acs_firmware_prefix, class: 'form-control' %>
 
         <%= f.label :acs_default_model, "Default Model" %>
-        <%= f.text_field :acs_default_model, class: 'form-control' %>
+        <select class="form-control" name="default_model" id="api_acs_default_model">
+          <% @models.each do |model| %>
+            <option value="<%= model[0] %>"><%= model[0] %></option>
+          <% end %>
+        </select>
 
       </div>
     </div>

@@ -3,6 +3,7 @@ class StaticPagesController < ApplicationController
   end
 
   def settings
+    @models = TRXML.xmls;
   end
 
   def download
