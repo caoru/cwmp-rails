@@ -11,21 +11,23 @@ class ApiController < ApplicationController
   end
 
   def get_url
-    url = ""
+    urls = []
+    ips = []
 
-    ip = Socket.ip_address_list.detect{|intf| intf.ipv4_private?}
-
-    if ip
-      address = ip.ip_address
-    else
-      address = host
+    Socket.ip_address_list.each do |entry|
+      if entry.ipv4? && !entry.ipv4_loopback? && entry.ipv4_private? && entry.ip_address.class == String
+        ips.push(entry.ip_address)
+      end
     end
 
     operation = params[:operation]
     type = params[:type]
 
     if operation == "upload"
-      url = request.protocol + address.to_s + ":" + request.server_port.to_s + "/" + operation + "/" + type
+      ips.each do |entry|
+        url = request.protocol + entry + ":" + request.server_port.to_s + "/" + operation + "/" + type
+        urls.push(url)
+      end
     else
       records = nil
 
@@ -37,15 +39,20 @@ class ApiController < ApplicationController
 
       if records.nil?
         url = "Not supported.";
+        urls.push(url)
       elsif records.empty?
         url = "File not exist, upload file.";
+        urls.push(url)
       else
-        url = request.protocol + address + ":" + request.server_port.to_s + "/" +
-              operation + "/" + type + "/" + records[0].to_s.gsub(CPE.file_root + "/" + type + "/", "")
+        ips.each do |entry|
+          url = request.protocol + entry + ":" + request.server_port.to_s + "/" +
+                operation + "/" + type + "/" + records[0].to_s.gsub(CPE.file_root + "/" + type + "/", "")
+          urls.push(url)
+        end
       end
     end
     
-    json_response({ :result => "true", :url => url })
+    json_response({ :result => "true", :urls => urls })
   end
 
   def download_file

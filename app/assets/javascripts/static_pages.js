@@ -10,9 +10,15 @@ function get_url() {
     method: "GET",
     success: function(data) {
       if (data.result == "true") {
-        $('#updownload_url').val(data.url);
+        $('#updownload_url').empty();
+        $.each(data.urls, function (i, item) {
+          $('#updownload_url').append($('<option>', {
+            value: item,
+            text : item
+          }));
+        });
 
-        if (data.url.startsWith("File")) {
+        if (data.urls[0].startsWith("File")) {
           $('#upload_file').css("display", "inline");
           $('#updownload_file_name').css("display", "inline");
           $('#progress-wrp').css("display", "none");

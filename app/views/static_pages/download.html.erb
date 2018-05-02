@@ -27,7 +27,8 @@
         </select>
 
         <%= f.label :url, "URL" %>
-        <%= f.text_field :url, class: 'form-control download'  %>
+        <select class="form-control download" name="updownload[url]" id="updownload_url">
+        </select>
         <%= f.file_field :file_name, class: 'form-control' %>
         <%= f.button :Upload, class: 'form-control width-15 btn btn-primary', id: 'upload_file'  %>
         <div id="progress-wrp">
