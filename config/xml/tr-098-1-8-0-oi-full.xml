@@ -13416,8 +13416,142 @@
           <unsignedInt/>
         </syntax>
       </parameter>
+      <parameter name="DhcpLeaseNumberOfEntries" access="readOnly" dmr:version="1.0">
+        <description>
+          Number of entries in the {{object|DhcpLease}} table.
+        </description>
+        <syntax>
+          <unsignedInt/>
+        </syntax>
+      </parameter>
     </object>
     <object name="InternetGatewayDevice.LANDevice.{i}.Hosts.Host.{i}." access="readOnly" numEntriesParameter="HostNumberOfEntries" minEntries="0" maxEntries="unbounded" dmr:version="1.0">
+      <description>
+        Host table.
+      </description>
+      <uniqueKey>
+        <parameter ref="MACAddress"/>
+      </uniqueKey>
+      <parameter name="IPAddress" access="readOnly" dmr:version="1.0">
+        <description>
+          Current IP Address of the host.
+        </description>
+        <syntax>
+          <dataType ref="IPAddress"/>
+        </syntax>
+      </parameter>
+      <parameter name="AddressSource" access="readOnly" dmr:version="1.0">
+        <description>
+          Indicates whether the IP address of the host was allocated by the CPE using DHCP, was assigned to the host statically, or was assigned using automatic IP address allocation.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="DHCP"/>
+            <enumeration value="Static"/>
+            <enumeration value="AutoIP"/>
+          </string>
+        </syntax>
+      </parameter>
+      <parameter name="LeaseTimeRemaining" access="readOnly" activeNotify="canDeny" dmr:version="1.0">
+        <description>
+          DHCP lease time remaining in seconds.  A value of -1 indicates an infinite lease.  The value MUST be 0 (zero) if the {{param|AddressSource}} is not {{enum|DHCP|AddressSource}}.
+        </description>
+        <syntax>
+          <int>
+            <range minInclusive="-1"/>
+          </int>
+        </syntax>
+      </parameter>
+      <parameter name="MACAddress" access="readOnly" dmr:version="1.0">
+        <description>
+          MAC address of the host.
+        </description>
+        <syntax>
+          <dataType ref="MACAddress"/>
+        </syntax>
+      </parameter>
+      <parameter name="Layer2Interface" access="readOnly" dmr:version="1.4">
+        <description>
+          This parameter is the full hierarchical parameter name of a particular ''LAN**InterfaceConfig'' object or a ''WLANConfiguration'' object.  For example: ''InternetGatewayDevice.LANDevice.1.LANEthernetInterfaceConfig.2''.
+          In the case of an embedded Ethernet switch, the {{param}} parameter references the ''LANEthernetInterfaceConfig'' object that corresponds to the switch port the device is connected to (a ''LANEthernetInterfaceConfig'' instance for each switch port).
+          In the case of an embedded WLAN access point, the {{param}} parameter references the ''WLANConfiguration'' object that corresponds to the SSID the device is connected to (if the access point supports multiple SSIDs, then each SSID is a separate instance).
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+          </string>
+        </syntax>
+      </parameter>
+      <parameter name="VendorClassID" access="readOnly" dmr:version="1.4">
+        <description>
+          Vendor Class Identifier DHCP option (Option 60) of the host.
+          It MAY be defined when ''AddressSource'' is ''DHCP''. {{empty}} indicates this option is not used.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+          </string>
+        </syntax>
+      </parameter>
+      <parameter name="ClientID" access="readOnly" dmr:version="1.4">
+        <description>
+          Client Identifier DHCP option (Option 61) for the specific IP connection of the client.  The option value is binary, so an exact match is REQUIRED.
+          It MAY be defined when ''AddressSource'' is ''DHCP''. {{empty}} indicates this option is not used.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+          </string>
+        </syntax>
+      </parameter>
+      <parameter name="UserClassID" access="readOnly" dmr:version="1.4">
+        <description>
+          User Class Identifier DHCP option (Option 77) of the host.
+          It MAY be defined when ''AddressSource'' is ''DHCP''. {{empty}} indicates this option is not used.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="256"/>
+          </string>
+        </syntax>
+      </parameter>
+      <parameter name="HostName" access="readOnly" dmr:version="1.0">
+        <description>
+          The device's host name or {{empty}} if unknown.
+        </description>
+        <syntax>
+          <string>
+            <size maxLength="64"/>
+          </string>
+        </syntax>
+      </parameter>
+      <parameter name="InterfaceType" access="readOnly" dmr:version="1.0">
+        <description>
+          Type of physical interface through which this host is connected to the CPE.
+        </description>
+        <syntax>
+          <string>
+            <enumeration value="Ethernet"/>
+            <enumeration value="USB"/>
+            <enumeration value="802.11"/>
+            <enumeration value="HomePNA"/>
+            <enumeration value="HomePlug"/>
+            <enumeration value="MoCA"/>
+            <enumeration value="Other"/>
+          </string>
+        </syntax>
+      </parameter>
+      <parameter name="Active" access="readOnly" dmr:version="1.0">
+        <description>
+          Whether or not the host is currently present on the LAN.  The method of presence detection is a local matter to the CPE.
+          The ability to list inactive hosts is OPTIONAL.  If the CPE includes inactive hosts in this table, this variable MUST be set to {{false}} for each inactive host.  The length of time an inactive host remains listed in this table is a local matter to the CPE.
+        </description>
+        <syntax>
+          <boolean/>
+        </syntax>
+      </parameter>
+    </object>
+    <object name="InternetGatewayDevice.LANDevice.{i}.Hosts.DhcpLease.{i}." access="readOnly" numEntriesParameter="DhcpLeaseNumberOfEntries" minEntries="0" maxEntries="unbounded" dmr:version="1.0">
       <description>
         Host table.
       </description>
