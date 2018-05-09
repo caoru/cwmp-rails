@@ -19257,14 +19257,14 @@
           {{datatype|expand}}
         </description>
         <syntax>
-          <dataType ref="DiagnosticsState">
+          <string ref="DiagnosticsState">
             <enumeration value="None" access="readOnly"/>
             <enumeration value="Requested"/>
             <enumeration value="Canceled" optional="true"/>
             <enumeration value="Complete" access="readOnly"/>
             <enumeration value="Error" access="readOnly" optional="true"/>
             <enumeration value="Completed" access="readOnly" status="deprecated"/>
-          </dataType>
+          </string>
         </syntax>
       </parameter>
       <parameter name="ResultNumberOfEntries" access="readOnly" dmr:version="2.7">
