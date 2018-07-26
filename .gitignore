@@ -37,3 +37,5 @@ log/*
 config/settings.yml
 cpe
 
+out
+
