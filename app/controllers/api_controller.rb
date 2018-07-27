@@ -99,10 +99,13 @@ class ApiController < ApplicationController
     if params[:type] == "firmware"
       file_name = Rails.root.join(CPE.firmware, params[:file].original_filename)
       FileUtils::mkdir_p CPE.firmware unless Dir.exist?(CPE.firmware)
+    elsif params[:type] == "config"
+      file_name = Rails.root.join(CPE.config, params[:file].original_filename)
+      FileUtils::mkdir_p CPE.config unless Dir.exist?(CPE.config)
+    end
 
-      File.open(file_name,'wb') do |file| 
-        file.write(params[:file].read)
-      end
+    File.open(file_name,'wb') do |file|
+      file.write(params[:file].read)
     end
 
     head 200
