@@ -13551,7 +13551,7 @@
         </syntax>
       </parameter>
     </object>
-    <object name="InternetGatewayDevice.LANDevice.{i}.Hosts.DhcpLease.{i}." access="readOnly" numEntriesParameter="DhcpLeaseNumberOfEntries" minEntries="0" maxEntries="unbounded" dmr:version="1.0">
+    <object name="InternetGatewayDevice.LANDevice.{i}.Hosts.DhcpLease.{i}." access="readWrite" numEntriesParameter="DhcpLeaseNumberOfEntries" minEntries="0" maxEntries="unbounded" dmr:version="1.0">
       <description>
         Host table.
       </description>
@@ -20010,9 +20010,9 @@
           If {{param|KeyPassphrase}} is written, then {{param}} is immediately generated. The ACS SHOULD NOT set both the {{param|KeyPassphrase}} and the {{param}} directly (the result of doing this is undefined).
         </description>
         <syntax hidden="true">
-          <hexBinary>
+          <string>
             <size maxLength="32"/>
-          </hexBinary>
+          </string>
         </syntax>
       </parameter>
       <parameter name="KeyPassphrase" access="readWrite" dmr:version="2.0">
