@@ -55,6 +55,13 @@ class Trxml
               enums.push(enumeration_entry["value"].to_s + "|" + enumeration_entry["value"].to_s)
             end
           end
+          child_entry.xpath("syntax/dataType/enumeration").each do |enumeration_entry|
+            if enumeration_entry["access"] != "readOnly" and enumeration_entry["optional"] != "true"
+              #data = { "value" => enumeration_entry["value"], "text" => enumeration_entry["value"] }
+              #enums.push(data)
+              enums.push(enumeration_entry["value"].to_s + "|" + enumeration_entry["value"].to_s)
+            end
+          end
 
           icon = "glyphicon glyphicon-stop"
           if access == "readOnly"
