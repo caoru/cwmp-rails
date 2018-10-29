@@ -15,7 +15,7 @@ class ApiController < ApplicationController
     ips = []
 
     Socket.ip_address_list.each do |entry|
-      if entry.ipv4? && !entry.ipv4_loopback? && entry.ipv4_private? && entry.ip_address.class == String
+      if entry.ipv4? && !entry.ipv4_loopback? && entry.ip_address.class == String
         ips.push(entry.ip_address)
       end
     end
