@@ -43,6 +43,11 @@ class Trxml
 
           if type == "dataType"
             type = child_entry.xpath("syntax/*")[0]["ref"]
+            if type == "DiagnosticsState"
+              type = "string"
+            elsif type == "Alias"
+              type = "string"
+            end
           elsif type == "list"
             type = "string(list)"
           end
