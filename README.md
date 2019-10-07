@@ -2,8 +2,7 @@
 
 
 ## Install
-Install ruby and rails with reference to the link below
-https://gorails.com/setup
+Install ruby and rails with reference to [the link Gorails!](https://gorails.com/setup)
 
 Clone the repository with Git:
 
