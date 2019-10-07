@@ -1,24 +1,29 @@
-# README
+# cwmp-rails
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
-Things you may want to cover:
+## Install
+Install ruby and rails with reference to the link below
+https://gorails.com/setup
 
-* Ruby version
+Clone the repository with Git:
 
-* System dependencies
+```bash
+git clone https://github.com/caoru/cwmp-rails.git <your-project-name>
+```
 
-* Configuration
+And then install the dependencies and create database:
 
-* Database creation
+```bash
+cd <your-project-name>
+bundle install
+rake db:migrate
+```
 
-* Database initialization
 
-* How to run the test suite
+## Usage
+Start cwmp-rails server:
 
-* Services (job queues, cache servers, search engines, etc.)
+```bash
+rails server
+```
 
-* Deployment instructions
-
-* ...
