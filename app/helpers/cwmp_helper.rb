@@ -14,29 +14,6 @@ module CwmpHelper
   class Inform < CwmpResponse
     def process(xml_doc)
       id = xml_doc.xpath("//cwmp:ID").text
-      #oui = xml_doc.xpath("//OUI").text
-      #product_class = xml_doc.xpath("//ProductClass").text
-      #serial_number = xml_doc.xpath("//SerialNumber").text
-      #event_codes = xml_doc.xpath("//EventCode")
-      #remote_ip = xml_doc.xpath("//SOAP-ENV:RemoteIp").text
-      #event_code_string = ""
-      #received = xml_doc.xpath("//SOAP-ENV:Received").text
-      #epoch = xml_doc.xpath("//SOAP-ENV:Epoch").text
-
-      #log_string = sprintf("%s %s %s-%s-%s RequestId: %s Event: ",
-                           #received, remote_ip, oui, product_class, serial_number, id)
-
-      #event_codes.each do |event_code|
-        #if event_code_string.length > 0
-          #event_code_string.concat("; ") #unless event_code_string.length
-        #end
-        #event_code_string.concat(event_code.text)
-      #end
-
-      #log_string.concat(event_code_string)
-
-      #html = sprintf("<a class=\"list-group-item message\" onclick=\"javascript:getXml(%s);return false;\">%s</a>", epoch, log_string)
-      #ActionCable.server.broadcast "trlog", html: html
 
       xml = sprintf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>
                      <SOAP-ENV:Envelope
@@ -56,7 +33,6 @@ module CwmpHelper
                      </SOAP-ENV:Envelope>",
                      id)
 
-      #return nil
       return xml
     end
   end
@@ -87,11 +63,6 @@ module CwmpHelper
   class TransferComplete < CwmpResponse
     def process(xml_doc)
       id = xml_doc.xpath("//cwmp:ID").text
-      faultCode = xml_doc.xpath("//FaultStruct/FaultCode").text
-      faultString = xml_doc.xpath("//FaultStruct/FaultString").text
-
-      #data = name + ", " + faultCode + ": " + faultString
-      #ActionCable.server.broadcast "parameters:get", {id: id, data: data}
 
       xml = sprintf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>
                      <SOAP-ENV:Envelope

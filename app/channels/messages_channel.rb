@@ -1,4 +1,4 @@
-class TrLogsChannel < ApplicationCable::Channel
+class MessagesChannel < ApplicationCable::Channel
   def subscribed
     # stream_from "some_channel"
     stream_from "messages"

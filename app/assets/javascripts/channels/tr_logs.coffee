@@ -1,4 +1,4 @@
-App.tr_logs = App.cable.subscriptions.create "TrLogsChannel",
+App.tr_logs = App.cable.subscriptions.create "MessagesChannel",
   connected: ->
     # Called when the subscription is ready for use on the server
 
