@@ -10,17 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180104061342) do
+ActiveRecord::Schema.define(version: 20191010160939) do
 
-  create_table "inform_messages", force: :cascade do |t|
-    t.integer "rid"
-    t.string "received"
+  create_table "messages", force: :cascade do |t|
+    t.integer "cwmp_id"
+    t.datetime "timestamp"
     t.string "ip"
+    t.string "method"
+    t.string "events"
     t.string "oui"
-    t.string "class"
+    t.string "product_class"
     t.string "serial"
-    t.string "event"
-    t.string "xml"
+    t.string "direction"
+    t.text "xml"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

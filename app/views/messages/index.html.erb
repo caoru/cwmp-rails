@@ -1,0 +1,33 @@
+<% provide(:title, "Messages") %>
+
+<h1>Messages</h1>
+
+<div class="destroy-block">
+  <label class="destroy-messages"><a>Clear Messages</a></label>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div id="messages" class="list-group">
+      <% @messages.each do |message| %>
+        <a class="list-group-item message" href="/api/cpe/message.xml?id=<%= message.id %>" target="_blank">
+          <% if message.direction == "atoc" %>
+            <span class="atoc">A->C</span>
+          <% else %>
+            <span class="ctoa">C->A</span>
+          <% end %>
+          <span class="timestamp"><%= message.timestamp.localtime %></span>
+          <span class="ip"><%= message.ip %></span>
+          <span class="cwmpid">ID: <%= message.cwmp_id %></span>
+          <% if message.oui.present? %>
+            <span class="identity"><%= message.oui %>-<%= message.product_class %>-<%= message.serial %></span>
+          <% end %>
+          <% if message.oui.present? %>
+            Event: <%= message.events %>
+          <% end %>
+          <span class="method"><%= message.method %></span>
+        </a>
+      <% end %>
+    </div>
+  </div>
+</div>

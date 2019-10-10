@@ -1,0 +1,57 @@
+// Place all the styles related to the Messages controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.destroy-block {
+  text-align: right;
+
+  .destroy-messages {
+    cursor: pointer;
+    a:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+#messages {
+  .message {
+    cursor: pointer;
+  }
+
+  .atoc {
+    color: red;
+    font-weight: bold;
+  }
+
+  .ctoa {
+    color: blue;
+    font-weight: bold;
+  }
+
+  .timestamp {
+    color: black;
+    /* font-weight: bold; */
+  }
+
+  .ip {
+    color: crimson ;
+    font-weight: bold;
+  }
+
+  .cwmpid {
+    color: DarkKhaki;
+    /* color: limegreen; */
+    /* color: seagreen; */
+    font-weight: bold;
+  }
+
+  .identity {
+    color: cornflowerblue ;
+    font-weight: bold;
+  }
+
+  .method {
+    color: black;
+    font-weight: bold;
+  }
+}

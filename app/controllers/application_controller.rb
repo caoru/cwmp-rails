@@ -6,5 +6,4 @@ class ApplicationController < ActionController::Base
   CPE = Cpe.new
   ACS = Acs.new
   TRXML = Trxml.new
-  MESSAGES = Hash.new
 end

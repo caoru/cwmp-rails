@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
-  #get 'parameters/index'
-
-  #get 'parameter/index'
+  resources :messages
 
   root 'static_pages#home'
 
@@ -36,8 +34,8 @@ Rails.application.routes.draw do
   post '/api/cpe/factory_reset', to: 'api#factory_reset'
 
   get '/api/cpe/message', to: 'api#get_message'
-  get '/api/cpe/messages', to: 'api#get_messages'
-  delete '/api/cpe/messages', to: 'api#delete_messages'
+
+  delete '/messages', to: 'messages#destroy_all'
 
   post '/api/cpe/download', to: 'api#post_download'
   post '/api/cpe/upload', to: 'api#post_upload'

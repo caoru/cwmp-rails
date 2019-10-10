@@ -22,19 +22,6 @@ class CwmpController < ApplicationController
         end
       end
 
-      received = Time.now
-
-      message = CwmpMessage.new(xml_doc)
-      message.epoch = received.to_f
-      message.ip = request.remote_ip
-      message.received = received
-      message.direction = "ctoa"
-      MESSAGES[message.epoch] = message
-
-      xml_doc.xpath("//SOAP-ENV:Header").before('<RemoteIp>' + request.remote_ip + '</RemoteIp>')
-      xml_doc.xpath("//SOAP-ENV:Header").before('<Received>' + received.to_s + '</Received>')
-      xml_doc.xpath("//SOAP-ENV:Header").before('<Epoch>' + received.to_f.to_s + '</Epoch>')
-
       send_notification_response(xml_doc, method)
 
       clazz_name = 'CwmpHelper::' + method
@@ -87,7 +74,6 @@ class CwmpController < ApplicationController
 
     def send_notification_request(xml_doc)
       id = xml_doc.xpath("//cwmp:ID").text
-      received = Time.now
 
       method = ""
 
@@ -98,25 +84,32 @@ class CwmpController < ApplicationController
         end
       end
 
-      message = CwmpMessage.new(xml_doc)
-      message.epoch = received.to_f
-      message.ip = CPE.ip
-      message.received = received
-      message.direction = "atoc"
-      MESSAGES[message.epoch] = message
+      @message = Message.new
+      @message.cwmp_id = id
+      @message.ip = CPE.ip
+      @message.method = method
+      @message.direction = "atoc"
+      @message.timestamp = Time.now
+      @message.xml = xml_doc.to_s
+      @message.save
 
       log_string = sprintf("<span class=\"atoc\">A->C</span> <span class=\"timestamp\">%s</span> <span class=\"ip\">%s</span> <span class=\"cwmpid\">ID: %s</span> <span class=\"method\">%s</span>",
-                           received, CPE.ip, id, method)
+                           @message.timestamp.localtime, CPE.ip, id, method)
 
-      html = sprintf("<a class=\"list-group-item message\" href=\"/api/cpe/message.xml?epoch=%s\" target=\"_blank\">%s</a>", received.to_f.to_s, log_string)
-      ActionCable.server.broadcast "trlog", html: html
+      html = sprintf("<a class=\"list-group-item message\" href=\"/api/cpe/message.xml?id=%d\" target=\"_blank\">%s</a>", @message.id, log_string)
+      ActionCable.server.broadcast "messages", html: html
     end
 
     def send_notification_response(xml_doc, method)
       id = xml_doc.xpath("//cwmp:ID").text
-      epoch = xml_doc.xpath("//SOAP-ENV:Epoch").text
-      received = xml_doc.xpath("//SOAP-ENV:Received").text
-      remote_ip = xml_doc.xpath("//SOAP-ENV:RemoteIp").text
+
+      @message = Message.new
+      @message.cwmp_id = id
+      @message.ip = request.remote_ip
+      @message.method = method
+      @message.direction = "ctoa"
+      @message.timestamp = Time.now
+      @message.xml = xml_doc.to_s
 
       if method == "Inform"
         oui = xml_doc.xpath("//OUI").text
@@ -126,7 +119,7 @@ class CwmpController < ApplicationController
         event_code_string = ""
 
         log_string = sprintf("<span class=\"ctoa\">C->A</span> <span class=\"timestamp\">%s</span> <span class=\"ip\">%s</span> <span class=\"cwmpid\">ID: %s</span> <span class=\"identity\">%s-%s-%s</span> Event: ",
-                             received, remote_ip, id, oui, product_class, serial_number)
+                             @message.timestamp.localtime, request.remote_ip, id, oui, product_class, serial_number)
 
         event_codes.each do |event_code|
           if event_code_string.length > 0
@@ -135,14 +128,21 @@ class CwmpController < ApplicationController
           event_code_string.concat(event_code.text)
         end
 
+        @message.oui = oui
+        @message.product_class = product_class
+        @message.serial = serial_number
+        @message.events = event_code_string
+
         log_string.concat(event_code_string)
         log_string.concat(" <span class=\"method\">Inform</span>")
       else
         log_string = sprintf("<span class=\"ctoa\">C->A</span> <span class=\"timestamp\">%s</span> <span class=\"ip\">%s</span> <span class=\"cwmpid\">ID: %s</span> <span class=\"method\">%s</span>",
-                             received, remote_ip, id, method)
+                             @message.timestamp.localtime, request.remote_ip, id, method)
       end
 
-      html = sprintf("<a class=\"list-group-item message\" href=\"/api/cpe/message.xml?epoch=%s\" target=\"_blank\">%s</a>", epoch, log_string)
-      ActionCable.server.broadcast "trlog", html: html
+      @message.save
+
+      html = sprintf("<a class=\"list-group-item message\" href=\"/api/cpe/message.xml?id=%d\" target=\"_blank\">%s</a>", @message.id, log_string)
+      ActionCable.server.broadcast "messages", html: html
     end
 end

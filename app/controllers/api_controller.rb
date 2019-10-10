@@ -226,8 +226,9 @@ class ApiController < ApplicationController
   end
 
   def get_message
-    epoch = params[:epoch]
-    message = MESSAGES[epoch.to_f]
+    id = params[:id]
+
+    message = Message.find(id)
 
     respond_to do |format|
       format.html
@@ -244,61 +245,6 @@ class ApiController < ApplicationController
     end
 
     render html: "Can't found message"
-  end
-
-  def get_messages
-    response = { :result => "true" }
-    messages = []
-    MESSAGES.each do |key, value|
-      message = {}
-      message[:id] = value.id
-      message[:received] = value.received
-      message[:epoch] = value.epoch
-      message[:ip] = value.ip
-      message[:oui] = value.oui
-      message[:class] = value.class
-      message[:serial] = value.serial
-      message[:events] = value.events
-      message[:method] = value.method
-      message[:direction] = value.direction
-
-      if value.method == "Inform"
-        message[:string] = 
-          sprintf("<span class=\"ctoa\">C->A</span> <span class=\"timestamp\">%s</span> <span class=\"ip\">%s</span> <span class=\"cwmpid\">ID: %s</span> <span class=\"identity\">%s-%s-%s</span> Event: %s <span class=\"method\">Inform</span>",
-                  value.received,
-                  value.ip,
-                  value.id,
-                  value.oui,
-                  value.class,
-                  value.serial,
-                  value.events)
-      elsif value.direction == "ctoa"
-        message[:string] = 
-          sprintf("<span class=\"ctoa\">C->A</span> <span class=\"timestamp\">%s</span> <span class=\"ip\">%s</span> <span class=\"cwmpid\">ID: %s</span> <span class=\"method\">%s</span>",
-                  value.received,
-                  value.ip,
-                  value.id,
-                  value.method)
-      else
-        message[:string] = 
-          sprintf("<span class=\"atoc\">A->C</span> <span class=\"timestamp\">%s</span> <span class=\"ip\">%s</span> <span class=\"cwmpid\">ID: %s</span> <span class=\"method\">%s</span>",
-                  value.received,
-                  value.ip,
-                  value.id,
-                  value.method)
-      end
-
-      messages.push(message)
-    end
-
-    response[:messages] = messages
-
-    json_response(response)
-  end
-
-  def delete_messages
-    MESSAGES.clear
-    ActionCable.server.broadcast "trlog", html: "clear"
   end
 
   private

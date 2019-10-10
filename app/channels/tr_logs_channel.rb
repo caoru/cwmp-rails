@@ -1,7 +1,7 @@
 class TrLogsChannel < ApplicationCable::Channel
   def subscribed
     # stream_from "some_channel"
-    stream_from "trlog"
+    stream_from "messages"
   end
 
   def unsubscribed

@@ -62,60 +62,6 @@
 .home-title {
 }
 
-.clear-block {
-  text-align: right;
-
-  .clear-messages {
-    cursor: pointer;
-    a:hover {
-      text-decoration: underline;
-    }
-  }
-}
-
-#trlog {
-  .message {
-    cursor: pointer;
-  }
-
-  .atoc {
-    color: red;
-    font-weight: bold;
-  }
-
-  .ctoa {
-    color: blue;
-    font-weight: bold;
-  }
-
-  .timestamp {
-    color: black;
-    /* font-weight: bold; */
-  }
-
-  .ip {
-    color: crimson ;
-    font-weight: bold;
-  }
-
-  .cwmpid {
-    color: DarkKhaki;
-    /* color: limegreen; */
-    /* color: seagreen; */
-    font-weight: bold;
-  }
-
-  .identity {
-    color: cornflowerblue ;
-    font-weight: bold;
-  }
-
-  .method {
-    color: black;
-    font-weight: bold;
-  }
-}
-
 #progress-wrp {
   border: 1px solid #0099CC;
   padding: 1px;

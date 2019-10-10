@@ -5,6 +5,10 @@ function get_url() {
     operation = "upload";
   }
 
+  if (!$('#updownload_file_type').val()) {
+      return false;
+  }
+
   $.ajax({
     url: "/api/cpe/url/" + operation + "/" + $('#updownload_file_type').val(),
     method: "GET",
@@ -259,34 +263,6 @@ var static_pages_ready = function() {
     });
 
     return false;
-  });
-
-  $.ajax({
-    url: "/api/cpe/messages",
-    method: "GET",
-    success: function(data) {
-      if (data.result == "true") {
-        $.each(data.messages, function(i, entry) {
-          /*
-          html = "<a class=\"list-group-item message\" onclick=\"javascript:getXml(" + entry.epoch +
-                 ");return false;\">" + entry.string +
-                 "</a>";
-          */
-          html = "<a class=\"list-group-item message\" " +
-                 "href=\"/api/cpe/message.xml?epoch=" + entry.epoch + "\" target=\"_blank\">" +
-                 entry.string + "</a>";
-          $("#trlog").prepend(html);
-        });
-      }
-    }
-  });
-
-  $('.clear-messages').unbind( "click" );
-  $('.clear-messages').click(function(e) {
-    $.ajax({
-      url: "/api/cpe/messages",
-      method: "DELETE"
-    });
   });
 
 };
