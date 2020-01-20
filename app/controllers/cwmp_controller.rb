@@ -73,7 +73,7 @@ class CwmpController < ApplicationController
     end
 
     def send_notification_request(xml_doc)
-      id = xml_doc.xpath("//cwmp:ID").text
+      id = xml_doc.xpath("//cwmp:ID").text.to_i
 
       method = ""
 
@@ -101,7 +101,7 @@ class CwmpController < ApplicationController
     end
 
     def send_notification_response(xml_doc, method)
-      id = xml_doc.xpath("//cwmp:ID").text
+      id = xml_doc.xpath("//cwmp:ID").text.to_i
 
       @message = Message.new
       @message.cwmp_id = id

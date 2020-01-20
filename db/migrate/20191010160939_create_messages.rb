@@ -1,7 +1,7 @@
 class CreateMessages < ActiveRecord::Migration[5.1]
   def change
     create_table :messages do |t|
-      t.integer :cwmp_id
+      t.bigint :cwmp_id
       t.datetime :timestamp
       t.string :ip
       t.string :method

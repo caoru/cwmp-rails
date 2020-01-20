@@ -13,7 +13,7 @@
 ActiveRecord::Schema.define(version: 20191010160939) do
 
   create_table "messages", force: :cascade do |t|
-    t.integer "cwmp_id"
+    t.bigint "cwmp_id"
     t.datetime "timestamp"
     t.string "ip"
     t.string "method"
