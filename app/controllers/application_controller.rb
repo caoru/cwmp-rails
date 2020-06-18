@@ -6,4 +6,6 @@ class ApplicationController < ActionController::Base
   CPE = Cpe.new
   ACS = Acs.new
   TRXML = Trxml.new
+  ActionCable.server.config.logger = Logger.new(nil)
+  ActiveRecord::Base.logger.level = Logger::INFO
 end
