@@ -15,7 +15,10 @@ class CwmpController < ApplicationController
       xml_doc = Nokogiri::XML(request.raw_post)
       method = ""
 
-      xml_doc.xpath("//SOAP-ENV:Body").children.each do |entry|
+      xml_doc.xpath(
+        "//SOAP_ENV:Body",
+        { "SOAP_ENV" => "http://schemas.xmlsoap.org/soap/envelope/" }
+      ).children.each do |entry|
         if entry.class == Nokogiri::XML::Element
           method = entry.name
           break
