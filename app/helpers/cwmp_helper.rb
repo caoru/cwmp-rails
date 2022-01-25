@@ -106,6 +106,7 @@ module CwmpHelper
     end
   end
 
+=begin
   class GetRPCMethods < CwmpRequest
     def process(command)
       xml = sprintf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>
@@ -143,43 +144,46 @@ module CwmpHelper
       return nil
     end
   end
+=end
   
-#  class GetRPCMethods < CwmpResponse
-#    def process(xml_doc)
-#      id = xml_doc.xpath("//cwmp:ID").text
-#
-#      xml = sprintf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-#                     <SOAP-ENV:Envelope
-#                     xmlns:SOAP-ENC=\"http://schemas.xmlsoap.org/soap/encoding/\" 
-#                     xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"
-#                     xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"
-#                     xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
-#                     xmlns:cwmp=\"urn:dslforum-org:cwmp-1-0\">
-#                     <SOAP-ENV:Header>
-#                     <cwmp:ID SOAP-ENV:mustUnderstand=\"1\">%s</cwmp:ID>
-#                     </SOAP-ENV:Header>
-#                     <SOAP-ENV:Body>
-#                     <cwmp:GetRPCMethodsResponse>
-#                     <MethodList SOAP-ENC:arrayType=\"xsd:string[10]\">
-#                     <string>GetRPCMethods</string>
-#                     <string>SetParameterValues</string>
-#                     <string>GetParameterValues</string>
-#                     <string>GetParameterNames</string>
-#                     <string>SetParameterAttributes</string>
-#                     <string>GetParameterAttributes</string>
-#                     <string>AddObject</string>
-#                     <string>DeleteObject</string>
-#                     <string>Reboot</string>
-#                     <string>FactoryReset</string>
-#                     </MethodList>
-#                     </cwmp:GetRPCMethodsResponse>
-#                     </SOAP-ENV:Body>
-#                     </SOAP-ENV:Envelope>",
-#                     id)
-#
-#      return xml
-#    end
-#  end
+  class GetRPCMethods < CwmpResponse
+    def process(xml_doc)
+      id = xml_doc.xpath("//cwmp:ID").text
+
+      xml = sprintf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+                     <SOAP-ENV:Envelope
+                     xmlns:SOAP-ENC=\"http://schemas.xmlsoap.org/soap/encoding/\" 
+                     xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"
+                     xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"
+                     xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
+                     xmlns:cwmp=\"urn:dslforum-org:cwmp-1-0\">
+                     <SOAP-ENV:Header>
+                     <cwmp:ID SOAP-ENV:mustUnderstand=\"1\">%s</cwmp:ID>
+                     </SOAP-ENV:Header>
+                     <SOAP-ENV:Body>
+                     <cwmp:GetRPCMethodsResponse>
+                     <MethodList SOAP-ENC:arrayType=\"xsd:string[10]\">
+                     <string>GetRPCMethods</string>
+                     <string>SetParameterValues</string>
+                     <string>GetParameterValues</string>
+                     <string>GetParameterNames</string>
+                     <string>SetParameterAttributes</string>
+                     <string>GetParameterAttributes</string>
+                     <string>AddObject</string>
+                     <string>DeleteObject</string>
+                     <string>Reboot</string>
+                     <string>FactoryReset</string>
+                     <string>Download</string>
+                     <string>Upload</string>
+                     </MethodList>
+                     </cwmp:GetRPCMethodsResponse>
+                     </SOAP-ENV:Body>
+                     </SOAP-ENV:Envelope>",
+                     id)
+
+      return xml
+    end
+  end
 
   class GetAllQueuedTransfers < CwmpRequest
     def process(command)
