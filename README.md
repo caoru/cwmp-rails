@@ -15,6 +15,7 @@ And then install the dependencies and create database:
 ```bash
 cd <your-project-name>
 bundle install
+rake db:create
 rake db:migrate
 ```
 
